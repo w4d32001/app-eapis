@@ -1,13 +1,6 @@
+import type { Teacher } from "@/pages/Teachers";
 import { Mail, Phone } from "lucide-react";
 
-export interface Teacher {
-        name: string;
-        position: string;
-        image: string;
-        school: string;
-        email: string;
-        phone: string;
-    };
 
 function TeacherDetails({ teacher }: { teacher: Teacher }) {
   return (
@@ -22,10 +15,8 @@ function TeacherDetails({ teacher }: { teacher: Teacher }) {
         />
     </div>
     <div className="flex flex-col gap-2 col-span-2">
-        <span className="text-primary text-4xl font-semibold">{teacher.school}</span
-        >
         <h3 className="font-bold text-black/90 text-xl">{teacher.name}</h3>
-        <p className="text-black/60">{teacher.position}</p>
+        <p className="text-black/60">{teacher.academic_degree}</p>
         <span className="text-black/60 flex items-center gap-x-2"
             ><Mail /> {teacher.email}</span
         >
