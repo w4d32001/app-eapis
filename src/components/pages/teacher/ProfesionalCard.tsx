@@ -10,7 +10,7 @@ function ProfesionalCard({ teacher }: { teacher: Teacher }) {
                         <img
                             src={teacher.image}
                             alt=""
-                            className="w-100 h-auto object-cover"
+                            className="w-100 h-100 object-cover rounded-2xl"
                         />
                     </div>
                 </div>

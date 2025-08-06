@@ -215,7 +215,7 @@ const Us: React.FC = () => {
                             <h2 className="text-[#050087] font-light text-5xl uppercase font-serif">
                                 Nuestra Historia
                             </h2>
-                            <p className="text-4xl text-[#0A2342] text-center font-light">
+                            <p className="text-sm lg:text-3xl  text-[#0A2342] text-center font-light">
                                 La carrera de Ingeniería Informática y Sistemas
                                 en la Universidad Nacional Micaela Bastidas de
                                 Apurímac (UNAMBA) fue creada poco después de la

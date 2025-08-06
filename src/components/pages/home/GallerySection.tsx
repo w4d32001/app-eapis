@@ -76,12 +76,11 @@ export default function GallerySection() {
                         key={item.id}
                         src={item.image}
                         alt={item.type}
-                        className="w-full object-cover rounded shadow-2xl shadow-black"
+                        className="w-full h-80 object-cover rounded shadow-2xl shadow-black"
                     />
                 ))}
             </div>
 
-            {/* Botón Ver más (si quieres paginación futura) */}
             <div className="flex items-center justify-center">
                 <button className="bg-white py-2 px-8 text-lg cursor-pointer rounded-2xl text-primary hover:text-white hover:bg-primary hover:border hover:border-white transition-all">
                     Ver más

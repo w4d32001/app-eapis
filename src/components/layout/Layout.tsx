@@ -6,11 +6,11 @@ import Footer from "./Footer";
 function Layout() {
     return (
         <div className="bg-brand min-h-screen flex flex-col">
-            <header className="w-full flex justify-between items-center p-8 fixed top-0 left-0 bg-brand z-50 shadow-md">
+            <header className="w-full flex justify-between items-center p-2 fixed top-0 left-0 bg-brand z-50 shadow-md">
                 <Logo />
                 <Navbar />
             </header>
-            <main className="mt-50">
+            <main className="mt-20">
                 <Outlet />
             </main>
             <Footer></Footer>

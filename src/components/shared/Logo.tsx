@@ -3,8 +3,8 @@ import text from "@/assets/img/text.png";
 function Logo() {
     return (
         <div className="flex items-center gap-x-2">
-            <img src={logo} alt="Logo Universidad" className="w-24" />
-            <div className="h-28 flex items-center gap-x-0.5">
+            <img src={logo} alt="Logo Universidad" className="w-20" />
+            <div className="h-24 flex items-center gap-x-0.5">
                 <hr className="h-full w-0.5 bg-accent" />
             </div>
             <img src={text} alt="Logo Universidad" className="w-80" />

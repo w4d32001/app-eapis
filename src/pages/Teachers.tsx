@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import ProfesionalCard from "@/components/pages/teacher/ProfesionalCard"
-import TeacherDetails from "@/components/pages/teacher/TeacherDetails"
 import { Separator } from "@/components/ui/separator"
 import fondo from "@/assets/fondo.png";
 import { API_URL } from '@/lib/url';
@@ -196,7 +195,7 @@ function Teachers() {
                         </li>
                     </ul>
 
-                    <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-6 py-8 mx-auto p-8 md:p-16">
+                    <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-2 mx-auto">
                         {otherTeachers.length > 0 ? (
                             otherTeachers.map((teacher) => (
                                 <ProfesionalCard key={teacher.id} teacher={teacher} />
