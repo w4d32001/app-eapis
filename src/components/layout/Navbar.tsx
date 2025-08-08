@@ -45,13 +45,13 @@ function Navbar() {
       />
       <ul
         id="nav-links"
-        className="relative flex items-center justify-between gap-2 h-15 w-full px-2 z-30"
+        className="relative flex items-center justify-around gap-2 h-12 w-full px-2 z-30"
       >
         {PAGES.map((item) => (
           <li
             key={item.path}
             data-href={item.path}
-            className={`relative z-20 cursor-pointer px-4 py-2 rounded font-semibold uppercase text-lg transition-colors duration-300 ${
+            className={`relative z-20 cursor-pointer px-2 py-1 rounded font-semibold uppercase text-sm transition-colors duration-300 ${
               hoveredItem === item.path ? "text-brand" : "text-white"
             }`}
             onMouseEnter={(e) => {

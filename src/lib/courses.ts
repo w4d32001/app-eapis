@@ -1,14 +1,22 @@
 export const courses = [
-    {
-        "name": "Fundamentos de la computación"
-    },
-    {
-        "name": "Desarrollo de software"
-    },
-    {
-        "name": "Sistemas de información"
-    },
-    {
-        "name": "Bases de datos"
-    }
-]
+    { "name": "Fundamentos de la computación" },
+    { "name": "Desarrollo de software" },
+    { "name": "Sistemas de información" },
+    { "name": "Bases de datos" },
+    { "name": "Inteligencia artificial" },
+    { "name": "Ciberseguridad" },
+    { "name": "Desarrollo web" },
+    { "name": "Análisis de datos" },
+    { "name": "Redes de computadoras" },
+    { "name": "Ingeniería de software" },
+    { "name": "Machine Learning" },
+    { "name": "Desarrollo móvil" },
+    { "name": "Cloud Computing" },
+    { "name": "DevOps" },
+    { "name": "Programación orientada a objetos" },
+    { "name": "Algoritmos y estructuras de datos" },
+    { "name": "Diseño UX/UI" },
+    { "name": "Testing y QA" },
+    { "name": "Blockchain" },
+    { "name": "Internet de las cosas (IoT)" }
+];

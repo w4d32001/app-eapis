@@ -64,10 +64,10 @@ function StudyPlan() {
                         <img
                             src={sistemas}
                             alt=""
-                            className="w-100 object-cover"
+                            className="w-80 object-cover"
                         />
                     </figure>
-                    <div className="flex items-center justify-center flex-col gap-y-10 font-rem text-6xl text-white font-semibold">
+                    <div className="flex items-center justify-center flex-col gap-y-10 font-rem text-4xl text-white font-semibold">
                         <h1 className="text-center uppercase tracking-wider leading-tight mb-4">
                             Ingeniería
                             <br className="block h-6" />

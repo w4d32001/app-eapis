@@ -9,5 +9,8 @@ export const formatDate = (isoDate: string) => {
   const month = months[dateObj.getMonth()];
   const year = dateObj.getFullYear();
 
-  return `${day} de ${month} de ${year}`;
+  const hours = dateObj.getHours().toString().padStart(2, "0");
+  const minutes = dateObj.getMinutes().toString().padStart(2, "0");
+
+  return `${day} de ${month} de ${year} ${hours}:${minutes}`;
 };

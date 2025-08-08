@@ -186,14 +186,14 @@ const Us: React.FC = () => {
             <section className="h-[calc(100vh-6.5rem)] bg-fondo-image bg-no-repeat bg-center bg-cover relative">
                 <div className="absolute h-[calc(100vh-6.5rem)] w-full bg-black opacity-75"></div>
                 <article className="relative flex flex-col z-10 h-full items-center justify-around -top-10">
-                    <figure className="flex justify-center">
+                    <figure className="flex justify-center m-auto">
                         <img
                             src={sistemas}
                             alt="Logo Sistemas"
-                            className="w-96 object-cover"
+                            className="w-80 object-cover"
                         />
                     </figure>
-                    <div className="flex items-center justify-center flex-col gap-y-10 text-6xl text-white font-semibold">
+                    <div className="flex items-center justify-center flex-col gap-y-10 text-4xl text-white font-semibold">
                         <h1 className="text-center uppercase tracking-wider leading-tight mb-4">
                             Ingeniería
                             <br className="block h-6" />
@@ -210,12 +210,12 @@ const Us: React.FC = () => {
 
             <section className="h-[calc(100vh-8rem)] bg-[#D9D9D9] relative">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 px-4">
-                    <div className="h-screen flex flex-col items-center relative pt-15">
-                        <div className="w-2/3 text-center flex flex-col gap-y-8 py-10">
+                    <div className="h-screen flex flex-col items-center relative justify-center">
+                        <div className="w-2/3 text-center flex flex-col gap-y-8 py-5">
                             <h2 className="text-[#050087] font-light text-5xl uppercase font-serif">
                                 Nuestra Historia
                             </h2>
-                            <p className="text-sm lg:text-3xl  text-[#0A2342] text-center font-light">
+                            <p className="text-sm lg:text-xl  text-[#0A2342] text-center font-light">
                                 La carrera de Ingeniería Informática y Sistemas
                                 en la Universidad Nacional Micaela Bastidas de
                                 Apurímac (UNAMBA) fue creada poco después de la
@@ -241,7 +241,7 @@ const Us: React.FC = () => {
                         <img
                             src={sistemas}
                             alt="Logo Sistemas"
-                            className="w-96 object-cover border-[#F0CE5D] border-2 rounded"
+                            className="w-80 object-cover border-[#F0CE5D] border-2 rounded"
                         />
                     </div>
                 </div>

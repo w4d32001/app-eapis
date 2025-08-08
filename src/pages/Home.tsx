@@ -12,6 +12,7 @@ import servicios from "@/assets/img/Logos/logo_servicios_academicos.png";
 import GallerySection from "@/components/pages/home/GallerySection";
 
 function Home() {
+    const duplicatedCourses = [...courses, ...courses];
     return (
         <div>
             <section className="h-[calc(100svh-6.5rem)] bg-fondo-image bg-no-repeat bg-center bg-cover relative z-0">
@@ -21,10 +22,10 @@ function Home() {
                         <img
                             src={sistemas}
                             alt=""
-                            className="w-100 object-cover"
+                            className="w-80 object-cover"
                         />
                     </figure>
-                    <div className="flex items-center justify-center flex-col gap-y-10 font-rem text-6xl text-white font-semibold">
+                    <div className="flex items-center justify-center flex-col gap-y-10 font-rem text-4xl text-white font-semibold">
                         <h1 className="text-center uppercase tracking-wider leading-tight mb-4">
                             Ingeniería
                             <br className="block h-6" />
@@ -36,10 +37,15 @@ function Home() {
                     </div>
                 </article>
             </section>
-            <section className="relative w-full -mt-5 -mb-5 z-20">
-                <div className="grid grid-cols-4 gap-x-14 px-4 w-full max-w-screen-2xl mx-auto">
-                    {courses.map((course) => (
-                        <CourseCard title={course.name} />
+            <section className="relative w-full -mt-5 -mb-5 z-20 overflow-hiddens">
+                <div className="flex animate-scroll">
+                    {duplicatedCourses.map((course, index) => (
+                        <div
+                            key={`${course.name}-${index}`}
+                            className="flex-shrink-0 mx-7"
+                        >
+                            <CourseCard title={course.name} />
+                        </div>
                     ))}
                 </div>
             </section>
@@ -115,7 +121,6 @@ function Home() {
                     </a>
                 </div>
             </section>
-            
         </div>
     );
 }

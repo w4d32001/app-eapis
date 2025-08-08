@@ -14,7 +14,9 @@ export default function GallerySection() {
     const [selectedType, setSelectedType] = useState<string>("todos");
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
-    const [imageLoaded, setImageLoaded] = useState<{ [key: number]: boolean }>({});
+    const [imageLoaded, setImageLoaded] = useState<{ [key: number]: boolean }>(
+        {}
+    );
 
     const categories = [
         "todos",
@@ -31,18 +33,18 @@ export default function GallerySection() {
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
             if (!isModalOpen) return;
-            
-            if (e.key === 'Escape') {
+
+            if (e.key === "Escape") {
                 setIsModalOpen(false);
-            } else if (e.key === 'ArrowLeft') {
+            } else if (e.key === "ArrowLeft") {
                 goToPrevious();
-            } else if (e.key === 'ArrowRight') {
+            } else if (e.key === "ArrowRight") {
                 goToNext();
             }
         };
 
-        window.addEventListener('keydown', handleKeyDown);
-        return () => window.removeEventListener('keydown', handleKeyDown);
+        window.addEventListener("keydown", handleKeyDown);
+        return () => window.removeEventListener("keydown", handleKeyDown);
     }, [isModalOpen, currentImageIndex, filtered]);
 
     const fetchGalleries = async () => {
@@ -71,37 +73,32 @@ export default function GallerySection() {
     const openModal = (index: number) => {
         setCurrentImageIndex(index);
         setIsModalOpen(true);
-        document.body.style.overflow = 'hidden'; 
+        document.body.style.overflow = "hidden";
     };
 
     const closeModal = () => {
         setIsModalOpen(false);
-        document.body.style.overflow = 'auto'; 
+        document.body.style.overflow = "auto";
     };
 
     const goToNext = () => {
-        setCurrentImageIndex((prev) => 
+        setCurrentImageIndex((prev) =>
             prev === filtered.length - 1 ? 0 : prev + 1
         );
     };
 
     const goToPrevious = () => {
-        setCurrentImageIndex((prev) => 
+        setCurrentImageIndex((prev) =>
             prev === 0 ? filtered.length - 1 : prev - 1
         );
     };
 
     const handleImageLoad = (id: number) => {
-        setImageLoaded(prev => ({ ...prev, [id]: true }));
+        setImageLoaded((prev) => ({ ...prev, [id]: true }));
     };
 
-    // Función para generar altura aleatoria para el efecto Pinterest
-    const getRandomHeight = () => {
-        const heights = [250, 300, 350, 400, 320, 280];
-        return heights[Math.floor(Math.random() * heights.length)];
-    };
 
-    console.log(filtered)
+    console.log(filtered);
     return (
         <>
             <section className="p-8 flex flex-col gap-y-10 bg-gallery">
@@ -127,9 +124,9 @@ export default function GallerySection() {
                     </ul>
                 </nav>
 
-                <div 
+                <div
                     className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-6 p-6"
-                    style={{ columnFill: 'balance' }}
+                    style={{ columnFill: "balance" }}
                 >
                     {filtered.map((item, index) => (
                         <div
@@ -140,14 +137,18 @@ export default function GallerySection() {
                             <div className="relative overflow-hidden rounded-lg shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:scale-[1.02]">
                                 {!imageLoaded[item.id] && (
                                     <div className="w-full h-64 bg-gray-300 animate-pulse rounded-lg flex items-center justify-center">
-                                        <div className="text-gray-500">Cargando...</div>
+                                        <div className="text-gray-500">
+                                            Cargando...
+                                        </div>
                                     </div>
                                 )}
                                 <img
                                     src={item.image}
                                     alt={item.type}
                                     className={`w-full object-cover rounded-lg transition-opacity duration-300 ${
-                                        imageLoaded[item.id] ? 'opacity-00' : 'opacity-00'
+                                        imageLoaded[item.id]
+                                            ? "opacity-00"
+                                            : "opacity-00"
                                     }`}
                                     onLoad={() => handleImageLoad(item.id)}
                                     loading="lazy"
@@ -170,33 +171,57 @@ export default function GallerySection() {
             </section>
 
             {isModalOpen && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80">
-                    <div className="relative max-h-full w-full h-full flex items-center justify-center p-4">
+                <div
+                    className="fixed inset-0 z-50 flex items-center justify-center bg-black/80"
+                    onClick={closeModal} 
+                >
+                    <div
+                        className="relative max-h-full w-full h-full flex items-center justify-center p-4"
+                        onClick={(e) => e.stopPropagation()} 
+                    >
                         <button
-                            onClick={closeModal}
-                            className="absolute top-4 right-4 z-10 text-white hover:text-gray-300 transition-colors p-2 rounded-full bg-red-600 bg-opacity-50 hover:bg-opacity-70"
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                closeModal();
+                            }}
+                            className="absolute top-4 right-4 z-10 text-white hover:text-gray-300 transition-colors p-2 rounded-full cursor-pointer bg-red-600 bg-opacity-50 hover:bg-opacity-70"
                         >
                             <X size={24} />
                         </button>
 
                         <button
-                            onClick={goToPrevious}
-                            className="absolute left-4 top-1/2 transform -translate-y-1/2 z-10 text-white hover:text-gray-300 transition-colors p-2 rounded-fu bg-sky-900 rounded-full bg-opacity-50 hover:bg-opacity-70"
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                goToPrevious();
+                            }}
+                            className="absolute left-4 top-1/2 transform -translate-y-1/2 z-10 text-white hover:text-gray-300 transition-colors p-2 bg-sky-900 rounded-full bg-opacity-50 hover:bg-opacity-70 cursor-pointer"
                             disabled={filtered.length <= 1}
                         >
                             <ChevronLeft size={32} />
                         </button>
 
-                        <div className="relative max-w-full max-h-full flex items-center justify-center">
+                        <div
+                            className="relative max-w-full max-h-full flex items-center justify-center"
+                            onClick={closeModal} 
+                        >
                             <img
                                 src={filtered[currentImageIndex]?.image}
                                 alt={filtered[currentImageIndex]?.type}
-                                className="max-w-full max-h-full object-contain rounded-lg shadow-2xl"
-                                style={{ maxHeight: '90vh', maxWidth: '90vw' }}
+                                className="max-w-full max-h-full object-contain rounded-lg shadow-2xl cursor-pointer"
+                                style={{ maxHeight: "90vh", maxWidth: "90vw" }}
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    closeModal(); 
+                                }}
                             />
-                            
-                            <div className="absolute bottom-4 left-4 bg-gray-500/50 text-white px-2 rounded-lg">
-                                <p className="font-semibold capitalize">{filtered[currentImageIndex]?.type}</p>
+
+                            <div
+                                className="absolute bottom-4 left-4 bg-gray-500/50 text-white px-2 rounded-lg"
+                                onClick={(e) => e.stopPropagation()} // Evita cierre al hacer clic en la info
+                            >
+                                <p className="font-semibold capitalize">
+                                    {filtered[currentImageIndex]?.type}
+                                </p>
                                 <p className="text-sm opacity-75">
                                     {currentImageIndex + 1} de {filtered.length}
                                 </p>
@@ -204,23 +229,32 @@ export default function GallerySection() {
                         </div>
 
                         <button
-                            onClick={goToNext}
-                            className="absolute right-4 top-1/2 transform -translate-y-1/2 z-10 text-white hover:text-gray-300 transition-colors p-2 rounded-ful bg-sky-900 rounded-full bg-opacity-50 hover:bg-opacity-70"
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                goToNext();
+                            }}
+                            className="absolute right-4 top-1/2 transform -translate-y-1/2 z-10 text-white hover:text-gray-300 transition-colors p-2 bg-sky-900 rounded-full bg-opacity-50 hover:bg-opacity-70 cursor-pointer"
                             disabled={filtered.length <= 1}
                         >
                             <ChevronRight size={32} />
                         </button>
 
                         {filtered.length > 1 && (
-                            <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
+                            <div
+                                className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2"
+                                onClick={(e) => e.stopPropagation()} 
+                            >
                                 {filtered.map((_, index) => (
                                     <button
                                         key={index}
-                                        onClick={() => setCurrentImageIndex(index)}
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            setCurrentImageIndex(index);
+                                        }}
                                         className={`w-2 h-2 rounded-full transition-all ${
                                             index === currentImageIndex
-                                                ? 'bg-white scale-125'
-                                                : 'bg-white bg-opacity-50 hover:bg-opacity-75'
+                                                ? "bg-white scale-125"
+                                                : "bg-white bg-opacity-50 hover:bg-opacity-75"
                                         }`}
                                     />
                                 ))}
@@ -232,3 +266,5 @@ export default function GallerySection() {
         </>
     );
 }
+
+
