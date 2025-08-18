@@ -36,10 +36,10 @@ function ProfesionalCard({ teacher }: { teacher: Teacher }) {
                 </div>
 
                 <div className="flex justify-center">
-                    <button className="bg-[#B4A97A] text-slate-900 font-semibold py-2 px-6 rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 flex items-center space-x-2">
+                    <a href={teacher.cv} target="_blank" className="bg-[#B4A97A] text-slate-900 font-semibold py-2 px-6 rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 flex items-center space-x-2">
                         <FileText className="w-4 h-4" />
                         <span>Ver Hoja de Vida</span>
-                    </button>
+                    </a>
                 </div>
             </div>
         </div>
@@ -47,3 +47,4 @@ function ProfesionalCard({ teacher }: { teacher: Teacher }) {
 }
 
 export default ProfesionalCard;
+

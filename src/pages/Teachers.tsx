@@ -2,8 +2,8 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import ProfesionalCard from "@/components/pages/teacher/ProfesionalCard"
 import { Separator } from "@/components/ui/separator"
-import fondo from "@/assets/fondo.png";
 import { API_URL } from '@/lib/url';
+import { settingsService } from '@/services/settingsService';
 
 export interface Teacher {
     id?: string;
@@ -13,6 +13,7 @@ export interface Teacher {
     phone: string;
     image?: string;
     teacher_type: TeacherType;
+    cv: string;
 }
 
 export interface TeacherType {
@@ -27,6 +28,12 @@ interface ApiResponse {
     teacherTypes: TeacherType[];
     filters: any[];
 }
+
+export type Portada = {
+  id: number;
+  name: string;
+  image: string;
+};
 
 function Teachers() {
     const [teachers, setTeachers] = useState<Teacher[]>([]);
@@ -92,6 +99,13 @@ function Teachers() {
         );
     };
 
+    const [portadas, setPortadas] = useState<Portada[]>([]);
+    const portadaAbout = portadas.find(p => p.name === "docentes");
+
+    useEffect(() => {
+        settingsService().then((data) => setPortadas(data));
+    }, []);
+    console.log(portadas)
     if (loading) {
         return (
             <div className="w-full min-h-screen flex items-center justify-center">
@@ -115,7 +129,7 @@ function Teachers() {
         <div className="w-full min-h-screen ">
             <div className="relative h-[calc(80vh)] w-full overflow-hidden z-0">
                 <img
-                    src={fondo}
+                    src={portadaAbout?.image}
                     alt="Fondo de la página de docentes"
                     className="absolute inset-0 w-full h-full object-cover z-0 -top-0"
                 />
@@ -164,7 +178,7 @@ function Teachers() {
                         <li>
                             <button 
                                 onClick={() => filterTeachers('all')}
-                                className={`py-2 px-4 rounded ${activeFilter === 'all' ? 'bg-[#F0CE5D]' : 'bg-[#3E4CA9]'}`}
+                                className={`py-2 px-4 rounded transition-all duration-400 cursor-pointer hover:bg-[#F0CE5D] hover:text-gray-800 ${activeFilter === 'all' ? 'bg-[#F0CE5D] text-gray-800' : 'bg-[#3E4CA9]'}`}
                             >
                                 Ver todos
                             </button>
@@ -172,7 +186,7 @@ function Teachers() {
                         <li>
                             <button 
                                 onClick={() => filterTeachers('nombrado')}
-                                className={`py-2 px-4 rounded ${activeFilter === 'nombrado' ? 'bg-[#F0CE5D]' : 'bg-[#3E4CA9]'}`}
+                                className={`py-2 px-4 rounded transition-all duration-400 cursor-pointer hover:bg-[#F0CE5D] hover:text-gray-800 ${activeFilter === 'nombrado' ? 'bg-[#F0CE5D] text-gray-800' : 'bg-[#3E4CA9]'}`}
                             >
                                 Docente nombrados
                             </button>
@@ -180,7 +194,7 @@ function Teachers() {
                         <li>
                             <button 
                                 onClick={() => filterTeachers('contratado')}
-                                className={`py-2 px-4 rounded ${activeFilter === 'contratado' ? 'bg-[#F0CE5D]' : 'bg-[#3E4CA9]'}`}
+                                className={`py-2 px-4 rounded transition-all duration-400 cursor-pointer hover:bg-[#F0CE5D] hover:text-gray-800 ${activeFilter === 'contratado' ? 'bg-[#F0CE5D] text-gray-800' : 'bg-[#3E4CA9]'}`}
                             >
                                 Docentes contratados
                             </button>
@@ -188,7 +202,7 @@ function Teachers() {
                         <li>
                             <button 
                                 onClick={() => filterTeachers('jefe')}
-                                className={`py-2 px-4 rounded ${activeFilter === 'jefe' ? 'bg-[#F0CE5D]' : 'bg-[#3E4CA9]'}`}
+                                className={`py-2 px-4 rounded transition-all duration-400 cursor-pointer hover:bg-[#F0CE5D] hover:text-gray-800 ${activeFilter === 'jefe' ? 'bg-[#F0CE5D] text-gray-800' : 'bg-[#3E4CA9]'}`}
                             >
                                 Jefes de practica
                             </button>

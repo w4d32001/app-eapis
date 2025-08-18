@@ -163,11 +163,7 @@ export default function GallerySection() {
                     ))}
                 </div>
 
-                <div className="flex items-center justify-center">
-                    <button className="bg-white py-2 px-8 text-lg cursor-pointer rounded-2xl text-primary hover:text-white hover:bg-primary hover:border hover:border-white transition-all">
-                        Ver más
-                    </button>
-                </div>
+                
             </section>
 
             {isModalOpen && (

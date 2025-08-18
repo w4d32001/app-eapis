@@ -20,7 +20,7 @@ function NewsCard({ title, date, ubication, image }: NewsCardProps) {
             </figure>
 
             <div className="flex flex-col gap-y-3 sm:gap-y-4 sm:col-span-2 font-bold justify-center items-start">
-                <span className=" text-base w-full px-2">
+                <span className=" text-base w-full px-2 font-mono">
                     {formatDate(date)}
                 </span>
                 <h3 

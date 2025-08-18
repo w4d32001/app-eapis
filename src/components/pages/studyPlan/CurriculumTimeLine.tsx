@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 
-// Tipos TypeScript
 interface Semester {
   id: number;
   name: string;
@@ -42,6 +41,7 @@ const CurriculumTimeline: React.FC = () => {
   const [semesters, setSemesters] = useState<Semester[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [isTransitioning, setIsTransitioning] = useState<boolean>(false);
   
   const allSemesters = [
     { id: 1, name: "PRIMER", roman: "I" },
@@ -115,44 +115,94 @@ const CurriculumTimeline: React.FC = () => {
     fetchSemesters();
   }, []);
 
+  const handleSemesterChange = (semesterId: number) => {
+    if (semesterId === activeSemester) return;
+    
+    const hasData = semesters.some(s => s.number === semesterId);
+    if (!hasData && semesterId !== 11) return;
+
+    setIsTransitioning(true);
+    setTimeout(() => {
+      setActiveSemester(semesterId);
+      setIsTransitioning(false);
+    }, 200);
+  };
+
   const currentSemesterData = semesters.find(sem => sem.number === activeSemester);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-700 to-slate-900 p-4">
       <div className="max-w-7xl mx-auto">
         
-        <div className="mb-8">
+        <div className="mb-12">
           <div className="relative">
-            <div className="absolute top-1/2 left-0 right-0 h-0.5 bg-slate-400 transform -translate-y-1/2"></div>
+            <div className="absolute top-1/2 left-0 right-0 h-1 bg-slate-600 transform -translate-y-1/2 rounded-full shadow-lg"></div>
             
             <div className="flex justify-between items-center relative">
               {allSemesters.map((semester) => {
                 const hasData = semesters.some(s => s.number === semester.id);
+                const isActive = activeSemester === semester.id;
+                
                 return (
-                  <div key={semester.id} className="flex flex-col items-center">
-                    <button
-                      onClick={() => setActiveSemester(semester.id)}
-                      disabled={!hasData && semester.id !== 11} 
-                      className={`w-8 h-8 rounded-full border-2 transition-all duration-300 mb-2 ${
-                        activeSemester === semester.id
-                          ? 'bg-yellow-400 border-yellow-400'
+                  <div key={semester.id} className="flex flex-col items-center relative">
+                    
+                    <div className={`text-center mb-4 transition-all duration-300 transform ${
+                      isActive ? 'scale-110' : 'scale-100'
+                    }`}>
+                      <div className={`font-bold text-sm transition-colors duration-300 ${
+                        isActive 
+                          ? 'text-yellow-400' 
                           : hasData || semester.id === 11
-                          ? 'bg-slate-600 border-slate-400 hover:bg-slate-500 cursor-pointer'
+                          ? 'text-white' 
+                          : 'text-slate-500'
+                      }`}>
+                        {semester.roman && `${semester.roman} SEMESTRE`}
+                      </div>
+                      <div className={`text-xs leading-tight max-w-16 transition-colors duration-300 ${
+                        isActive 
+                          ? 'text-yellow-300' 
+                          : hasData || semester.id === 11
+                          ? 'text-slate-300' 
+                          : 'text-slate-600'
+                      }`}>
+                        {semester.name}
+                      </div>
+                    </div>
+                    <span className={`w-1 h-8 mb-2 transition-all duration-300 rounded-full ${
+                      isActive 
+                        ? 'bg-yellow-400 shadow-lg shadow-yellow-400/50' 
+                        : hasData || semester.id === 11
+                        ? 'bg-slate-400' 
+                        : 'bg-slate-600'
+                    }`}></span>
+                    
+                    <button
+                      onClick={() => handleSemesterChange(semester.id)}
+                      disabled={!hasData && semester.id !== 11} 
+                      className={`w-10 h-10 rounded-full border-2 transition-all duration-300 relative transform hover:scale-110 ${
+                        isActive
+                          ? 'bg-yellow-400 border-yellow-300 shadow-lg shadow-yellow-400/50 scale-125'
+                          : hasData || semester.id === 11
+                          ? 'bg-slate-600 border-slate-400 hover:bg-slate-500 cursor-pointer hover:shadow-lg'
                           : 'bg-slate-800 border-slate-600 cursor-not-allowed opacity-50'
                       }`}
                     >
-                      <span className="sr-only">{semester.name}</span>
+                      {isActive && (
+                        <div className="absolute inset-0 rounded-full bg-yellow-400 animate-ping opacity-20"></div>
+                      )}
+                      
+                      <span className={`text-xs font-bold transition-colors duration-300 ${
+                        isActive ? 'text-slate-900' : 'text-white'
+                      }`}>
+                        {semester.roman}
+                      </span>
                     </button>
                     
-                    <div className="text-center text-white text-xs">
-                      <div className="font-bold">{semester.roman}</div>
-                      <div className="text-[10px] leading-tight max-w-16">
-                        {semester.name} SEMESTRE
-                      </div>
-                      {hasData && (
-                        <div className="w-2 h-2 bg-green-400 rounded-full mx-auto mt-1"></div>
-                      )}
-                    </div>
+                    {hasData && (
+                      <div className={`w-2 h-2 rounded-full mx-auto mt-3 transition-all duration-300 ${
+                        isActive ? 'bg-yellow-400' : 'bg-green-400'
+                      }`}></div>
+                    )}
                   </div>
                 );
               })}
@@ -180,14 +230,17 @@ const CurriculumTimeline: React.FC = () => {
         ) : null}
 
         {currentSemesterData ? (
-          <div className="bg-white rounded-lg overflow-hidden shadow-xl">
-            
+          <div className={`bg-white rounded-lg overflow-hidden shadow-xl transition-all duration-400 ease-in-out transform ${
+            isTransitioning 
+              ? 'opacity-0 translate-y-8 scale-95' 
+              : 'opacity-100 translate-y-0 scale-100'
+          }`}>
             <div className="p-6">
               <div className="relative">
                 <img 
                   src={currentSemesterData.image} 
                   alt={currentSemesterData.name}
-                  className="w-full h-auto rounded-lg shadow-lg max-h-160 object-cover"
+                  className="w-full h-auto rounded-lg shadow-lg max-h-160 object-cover transition-all duration-300"
                   onError={(e) => {
                     const target = e.target as HTMLImageElement;
                     target.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAwIiBoZWlnaHQ9IjQwMCIgdmlld0JveD0iMCAwIDgwMCA0MDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjgwMCIgaGVpZ2h0PSI0MDAiIGZpbGw9IiNGM0Y0RjYiLz48cGF0aCBkPSJNMzg0IDE4MEgzNjRWMjAwSDM4NFYxODBaTTQyNCAxODBINDA0VjIwMEg0MjRWMTgwWiIgZmlsbD0iIzlDQTNBRiIvPjx0ZXh0IHg9IjQwMCIgeT0iMjIwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjOUNBM0FGIiBmb250LXNpemU9IjE2Ij5JbWFnZW4gbm8gZGlzcG9uaWJsZTwvdGV4dD48L3N2Zz4=';
@@ -195,22 +248,34 @@ const CurriculumTimeline: React.FC = () => {
                 />
                 
                 {currentSemesterData.is_active === 1 && (
-                  <div className="absolute top-4 right-4 bg-green-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
+                  <div className="absolute top-4 right-4 bg-green-500 text-white px-3 py-1 rounded-full text-sm font-semibold shadow-lg">
                     Activo
                   </div>
                 )}
-              </div>
 
-              
+              </div>
             </div>
           </div>
         ) : activeSemester === 11 ? (
-          <div className="bg-slate-100 rounded-lg p-12 text-center">
+          <div className={`bg-slate-100 rounded-lg p-12 text-center transition-all duration-400 ease-in-out transform ${
+            isTransitioning 
+              ? 'opacity-0 translate-y-8 scale-95' 
+              : 'opacity-100 translate-y-0 scale-100'
+          }`}>
             <h3 className="text-2xl font-bold text-slate-600 mb-4">Cursos Electivos</h3>
             <p className="text-slate-500">Los cursos electivos estarán disponibles próximamente.</p>
+            <div className="mt-6 p-4 bg-yellow-100 rounded-lg">
+              <p className="text-yellow-800 text-sm">
+                Esta sección incluirá cursos especializados que podrás elegir según tus intereses profesionales.
+              </p>
+            </div>
           </div>
         ) : (
-          <div className="bg-slate-100 rounded-lg p-12 text-center">
+          <div className={`bg-slate-100 rounded-lg p-12 text-center transition-all duration-400 ease-in-out transform ${
+            isTransitioning 
+              ? 'opacity-0 translate-y-8 scale-95' 
+              : 'opacity-100 translate-y-0 scale-100'
+          }`}>
             <h3 className="text-2xl font-bold text-slate-600 mb-4">Semestre no disponible</h3>
             <p className="text-slate-500">Los datos para este semestre aún no están disponibles.</p>
             <div className="mt-4 text-sm text-slate-400">

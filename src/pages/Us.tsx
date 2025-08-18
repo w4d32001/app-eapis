@@ -6,6 +6,8 @@ import graduacion from "@/assets/img/us/graduacion.png";
 import vision from "@/assets/img/us/image69.png";
 import campo from "@/assets/img/us/image68.png";
 import mision from "@/assets/img/us/image67.png";
+import { settingsService } from "@/services/settingsService";
+import type { Portada } from "./Teachers";
 
 interface Section {
     image: string;
@@ -15,11 +17,12 @@ interface Section {
 
 const Us: React.FC = () => {
     const [activeTabId, setActiveTabId] = useState<string>("perfil");
+    const [isTransitioning, setIsTransitioning] = useState(false);
 
     const sections: Section[] = [
         {
             image: contactos,
-            title: "Contactos",
+            title: "Perfil profesional",
             id: "perfil",
         },
         {
@@ -45,46 +48,82 @@ const Us: React.FC = () => {
     ];
 
     const showTab = (targetId: string): void => {
-        setActiveTabId(targetId);
+        if (targetId === activeTabId) return;
+
+        setIsTransitioning(true);
+
+        setTimeout(() => {
+            setActiveTabId(targetId);
+            setIsTransitioning(false);
+        }, 200);
     };
 
     useEffect(() => {
-        // Initialize with first tab
         if (sections.length > 0) {
             setActiveTabId(sections[0].id);
         }
     }, []);
 
+    const [portadas, setPortadas] = useState<Portada[]>([]);
+    const portadaUs = portadas.find((p) => p.name === "nosotros");
+    const portadaHistory = portadas.find((p) => p.name === "historia");
+
+    useEffect(() => {
+        settingsService().then((data) => setPortadas(data));
+    }, []);
+
     const renderTabContent = () => {
+        const baseClasses = `tab-content transition-all duration-400 ease-in-out transform ${
+            isTransitioning 
+                ? 'opacity-0 translate-y-8 scale-95' 
+                : 'opacity-100 translate-y-0 scale-100'
+        }`;
+
         switch (activeTabId) {
             case "perfil":
                 return (
-                    <div className="tab-content text-[#0A2342] text-center">
-                        <h2 className="text-3xl font-bold mb-6">
-                            Perfil del Egresado
+                    <div className={`${baseClasses} text-[#0A2342] text-center`}>
+                        <h2 className="text-3xl font-bold mb-6 transform transition-all duration-500 ease-out">
+                            Perfil profesional
                         </h2>
-                        <h3 className="text-xl font-semibold mb-4">
+                        <h3 className="text-xl font-semibold mb-4 transform transition-all duration-600 ease-out">
                             Descripción de las competencias y habilidades que
                             poseerá el egresado:
                         </h3>
                         <ul className="list-disc list-inside space-y-2 text-lg">
-                            <li>Pensamiento Analítico</li>
-                            <li>Resolución de Problemas</li>
-                            <li>Liderazgo y Trabajo en Equipo</li>
-                            <li>Comunicación Efectiva</li>
-                            <li>Adaptabilidad y Aprendizaje Continuo</li>
-                            <li>Gestión de Proyectos</li>
-                            <li>Ética Profesional y Responsabilidad Social</li>
-                            <li>Innovación y Creatividad</li>
-                            <li>Competencia Técnica Especializada</li>
-                            <li>Orientación al Cliente y al Usuario</li>
+                            {[
+                                "Pensamiento Analítico",
+                                "Resolución de Problemas",
+                                "Liderazgo y Trabajo en Equipo",
+                                "Comunicación Efectiva",
+                                "Adaptabilidad y Aprendizaje Continuo",
+                                "Gestión de Proyectos",
+                                "Ética Profesional y Responsabilidad Social",
+                                "Innovación y Creatividad",
+                                "Competencia Técnica Especializada",
+                                "Orientación al Cliente y al Usuario"
+                            ].map((item, index) => (
+                                <li 
+                                    key={item}
+                                    className={`transition-all duration-500 ease-out transform ${
+                                        isTransitioning
+                                            ? 'opacity-0 translate-x-8'
+                                            : 'opacity-100 translate-x-0'
+                                    }`}
+                                    style={{
+                                        transitionDelay: isTransitioning ? '0ms' : `${index * 50}ms`
+                                    }}
+                                >
+                                    {item}
+                                </li>
+                            ))}
                         </ul>
                     </div>
                 );
 
             case "grados":
                 return (
-                    <div className="tab-content text-[#0A2342] text-center">
+                    <div className={`${baseClasses} text-[#0A2342] text-center`}>
                         <h2 className="text-3xl font-bold mb-6">
                             Grados y Títulos
                         </h2>
@@ -94,24 +133,39 @@ const Us: React.FC = () => {
                             estudiante obtendrá:
                         </h3>
                         <ul className="space-y-4 text-lg text-center">
-                            <li className="bg-white/10 p-4 rounded-lg">
-                                <strong>Grado académico:</strong>
-                                <br />
-                                Bachiller en Ingeniería Informática y de
-                                Sistemas
-                            </li>
-                            <li className="bg-white/10 p-4 rounded-lg">
-                                <strong>Título profesional:</strong>
-                                <br />
-                                Ingeniero Informático y de Sistemas
-                            </li>
+                            {[
+                                {
+                                    title: "Grado académico:",
+                                    content: "Bachiller en Ingeniería Informática y de Sistemas"
+                                },
+                                {
+                                    title: "Título profesional:",
+                                    content: "Ingeniero Informático y de Sistemas"
+                                }
+                            ].map((item, index) => (
+                                <li 
+                                    key={item.title}
+                                    className={`bg-white/10 p-4 rounded-lg transition-all duration-500 ease-out transform ${
+                                        isTransitioning
+                                            ? 'opacity-0 translate-y-8'
+                                            : 'opacity-100 translate-y-0'
+                                    }`}
+                                    style={{
+                                        transitionDelay: isTransitioning ? '0ms' : `${index * 200}ms`
+                                    }}
+                                >
+                                    <strong>{item.title}</strong>
+                                    <br />
+                                    {item.content}
+                                </li>
+                            ))}
                         </ul>
                     </div>
                 );
 
             case "vision":
                 return (
-                    <div className="tab-content text-[#0A2342] text-center">
+                    <div className={`${baseClasses} text-[#0A2342] text-center`}>
                         <h2 className="text-3xl font-bold mb-6">
                             Nuestra Visión
                         </h2>
@@ -134,7 +188,7 @@ const Us: React.FC = () => {
 
             case "campo":
                 return (
-                    <div className="tab-content text-[#0A2342] text-center">
+                    <div className={`${baseClasses} text-[#0A2342] text-center`}>
                         <h2 className="text-3xl font-bold mb-6">
                             Campo Laboral
                         </h2>
@@ -144,22 +198,36 @@ const Us: React.FC = () => {
                             desarrollarse en:
                         </h3>
                         <ul className="list-disc list-inside space-y-2 text-lg">
-                            <li>Desarrollo de Software</li>
-                            <li>Análisis y Diseño de Sistemas</li>
-                            <li>
-                                Administración de Redes y Seguridad Informática
-                            </li>
-                            <li>Ciberseguridad y Auditoría de Sistemas</li>
-                            <li>Gestión de Proyectos Tecnológicos</li>
-                            <li>Investigación y Desarrollo</li>
-                            <li>Emprendimiento Tecnológico</li>
+                            {[
+                                "Desarrollo de Software",
+                                "Análisis y Diseño de Sistemas",
+                                "Administración de Redes y Seguridad Informática",
+                                "Ciberseguridad y Auditoría de Sistemas",
+                                "Gestión de Proyectos Tecnológicos",
+                                "Investigación y Desarrollo",
+                                "Emprendimiento Tecnológico"
+                            ].map((item, index) => (
+                                <li 
+                                    key={item}
+                                    className={`transition-all duration-500 ease-out transform hover:bg-white/10 hover:rounded-lg hover:p-2 hover:-translate-x-2 ${
+                                        isTransitioning
+                                            ? 'opacity-0 translate-x-8'
+                                            : 'opacity-100 translate-x-0'
+                                    }`}
+                                    style={{
+                                        transitionDelay: isTransitioning ? '0ms' : `${index * 80}ms`
+                                    }}
+                                >
+                                    {item}
+                                </li>
+                            ))}
                         </ul>
                     </div>
                 );
 
             case "mision":
                 return (
-                    <div className="tab-content text-[#0A2342] text-center">
+                    <div className={`${baseClasses} text-[#0A2342] text-center`}>
                         <h2 className="text-3xl font-bold mb-6">
                             Nuestra Misión
                         </h2>
@@ -183,7 +251,10 @@ const Us: React.FC = () => {
 
     return (
         <div className="min-h-screen bg-gray-100">
-            <section className="h-[calc(100vh-6.5rem)] bg-fondo-image bg-no-repeat bg-center bg-cover relative">
+            <section
+                className="h-[calc(100vh-6.5rem)] bg-fondo-image bg-center bg-cover relative"
+                style={{ backgroundImage: `url(${portadaUs?.image})` }}
+            >
                 <div className="absolute h-[calc(100vh-6.5rem)] w-full bg-black opacity-75"></div>
                 <article className="relative flex flex-col z-10 h-full items-center justify-around -top-10">
                     <figure className="flex justify-center m-auto">
@@ -239,9 +310,9 @@ const Us: React.FC = () => {
                     </div>
                     <div className="flex items-center justify-center">
                         <img
-                            src={sistemas}
+                            src={portadaHistory?.image}
                             alt="Logo Sistemas"
-                            className="w-80 object-cover border-[#F0CE5D] border-2 rounded"
+                            className="w-180 object-cover border-[#F0CE5D] border-2 rounded"
                         />
                     </div>
                 </div>
@@ -267,9 +338,9 @@ const Us: React.FC = () => {
                             <button
                                 key={section.id}
                                 type="button"
-                                className={`item cursor-pointer p-4 rounded-lg transition-all duration-300 ${
+                                className={`item cursor-pointer p-4 rounded-lg transition-all duration-300 transform hover:scale-105 hover:shadow-xl ${
                                     activeTabId === section.id
-                                        ? "bg-blue-600 text-white shadow-lg"
+                                        ? "bg-blue-600 text-white shadow-lg ring-2 ring-blue-400 ring-opacity-50 scale-105"
                                         : "bg-gray-700 text-gray-300 hover:bg-gray-600"
                                 }`}
                                 onClick={() => showTab(section.id)}
@@ -278,23 +349,16 @@ const Us: React.FC = () => {
                             </button>
                         ))}
                     </div>
-                    {/*<img
-            src={line}
-            alt="Decorative line"
-            className="absolute top-0 left-1/2 transform -translate-x-1/2 w-full h-full object-cover z-10 pointer-events-none"
-          />*/}
                 </div>
                 <div className="h-40"></div>
                 <div className="w-full relative py-20 flex items-center justify-center">
-                    {/* Decorative backgrounds that adapt to content */}
                     <div className="absolute inset-0 flex flex-col">
                         <div className="flex-1 bg-[#33617E] rounded-t-2xl"></div>
                         <div className="flex-1 bg-[#F9F1DF]"></div>
                     </div>
 
-                    {/* Content container - centered and adaptive */}
                     <div className="w-full max-w-6xl px-10 relative z-20">
-                        <div className="w-full rounded-3xl bg-[#F0CE5D] p-10 shadow-lg">
+                        <div className="w-full rounded-3xl bg-[#F0CE5D] p-10 shadow-lg overflow-hidden">
                             {renderTabContent()}
                         </div>
                     </div>

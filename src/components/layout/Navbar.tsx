@@ -51,7 +51,7 @@ function Navbar() {
           <li
             key={item.path}
             data-href={item.path}
-            className={`relative z-20 cursor-pointer px-2 py-1 rounded font-semibold uppercase text-sm transition-colors duration-300 ${
+            className={`relative z-20 cursor-pointer px-8 py-2 rounded font-semibold uppercase text-sm transition-colors duration-300 ${
               hoveredItem === item.path ? "text-brand" : "text-white"
             }`}
             onMouseEnter={(e) => {

@@ -1,4 +1,5 @@
 import Home from "@/pages/Home";
+import News from "@/pages/News";
 import StudyPlan from "@/pages/StudyPlan";
 import Teachers from "@/pages/Teachers";
 import Us from "@/pages/Us";
@@ -23,5 +24,10 @@ export const PAGES = [
         path: '/teachers',
         component: Teachers,
         label: 'Docentes'
+    },
+    {
+        path: '/news',
+        component: News,
+        label: 'Noticias'
     }
 ]

@@ -14,7 +14,7 @@ import GallerySection from "@/components/pages/home/GallerySection";
 function Home() {
     const duplicatedCourses = [...courses, ...courses];
     return (
-        <div>
+        <div className="overflow-x-hidden">
             <section className="h-[calc(100svh-6.5rem)] bg-fondo-image bg-no-repeat bg-center bg-cover relative z-0">
                 <div className="absolute h-[calc(100svh-6.5rem)] w-full bg-black opacity-75 z-5"></div>
                 <article className="relative z-7 h-full items-center justify-around -top-10 grid lg:grid-cols-2">
