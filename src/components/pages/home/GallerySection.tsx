@@ -19,12 +19,14 @@ export default function GallerySection() {
     );
 
     const categories = [
-        "todos",
-        "laboratorios",
-        "eventos",
-        "alumnos",
-        "vida universitaria",
+        { value: "todos", label: "Todos" },
+        { value: "laboratorios", label: "Laboratorios" },
+        { value: "eventos", label: "Eventos" },
+        { value: "alumnos", label: "Alumnos" },
+        { value: "vida_universitaria", label: "Vida universitaria" },
     ];
+
+    console.log(galleries);
 
     useEffect(() => {
         fetchGalleries();
@@ -69,7 +71,6 @@ export default function GallerySection() {
             );
         }
     };
-
     const openModal = (index: number) => {
         setCurrentImageIndex(index);
         setIsModalOpen(true);
@@ -97,7 +98,6 @@ export default function GallerySection() {
         setImageLoaded((prev) => ({ ...prev, [id]: true }));
     };
 
-
     console.log(filtered);
     return (
         <>
@@ -110,15 +110,15 @@ export default function GallerySection() {
                     <ul className="flex items-center justify-center w-full gap-x-10 text-white text-lg flex-wrap">
                         {categories.map((cat) => (
                             <li
-                                key={cat}
-                                onClick={() => handleFilter(cat)}
+                                key={cat.value}
+                                onClick={() => handleFilter(cat.value)}
                                 className={`cursor-pointer pb-1 transition-all whitespace-nowrap ${
-                                    selectedType === cat
+                                    selectedType === cat.value
                                         ? "border-b-2 border-[#F0CE5D] text-white font-bold"
                                         : "hover:border-b hover:border-gray-300"
                                 }`}
                             >
-                                {cat.charAt(0).toUpperCase() + cat.slice(1)}
+                                {cat.label}
                             </li>
                         ))}
                     </ul>
@@ -162,18 +162,16 @@ export default function GallerySection() {
                         </div>
                     ))}
                 </div>
-
-                
             </section>
 
             {isModalOpen && (
                 <div
                     className="fixed inset-0 z-50 flex items-center justify-center bg-black/80"
-                    onClick={closeModal} 
+                    onClick={closeModal}
                 >
                     <div
                         className="relative max-h-full w-full h-full flex items-center justify-center p-4"
-                        onClick={(e) => e.stopPropagation()} 
+                        onClick={(e) => e.stopPropagation()}
                     >
                         <button
                             onClick={(e) => {
@@ -198,7 +196,7 @@ export default function GallerySection() {
 
                         <div
                             className="relative max-w-full max-h-full flex items-center justify-center"
-                            onClick={closeModal} 
+                            onClick={closeModal}
                         >
                             <img
                                 src={filtered[currentImageIndex]?.image}
@@ -207,7 +205,7 @@ export default function GallerySection() {
                                 style={{ maxHeight: "90vh", maxWidth: "90vw" }}
                                 onClick={(e) => {
                                     e.stopPropagation();
-                                    closeModal(); 
+                                    closeModal();
                                 }}
                             />
 
@@ -238,7 +236,7 @@ export default function GallerySection() {
                         {filtered.length > 1 && (
                             <div
                                 className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2"
-                                onClick={(e) => e.stopPropagation()} 
+                                onClick={(e) => e.stopPropagation()}
                             >
                                 {filtered.map((_, index) => (
                                     <button
@@ -262,5 +260,3 @@ export default function GallerySection() {
         </>
     );
 }
-
-

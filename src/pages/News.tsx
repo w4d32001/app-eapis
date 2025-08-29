@@ -27,13 +27,13 @@ function NewsCard({ news, onViewDetails }: NewsCardProps) {
 
             <div className="flex flex-col gap-y-3 sm:gap-y-4 sm:col-span-2 font-bold justify-start items-start">
                 <h3
-                    className="text-white text-lg font-bold w-full px-2 min-w-0"
+                    className="text-white capitalizar text-lg font-bold w-full min-w-0"
                     title={news.title}
                 >
-                    <span className="sm:hidden line-clamp-2 leading-tight">
+                    <span className="sm:hidden capitalizar line-clamp-2 leading-tight">
                         {news.title}
                     </span>
-                    <span className="hidden sm:block truncate">
+                    <span className="hidden capitalizar sm:block truncate">
                         {news.title}
                     </span>
                 </h3>
@@ -93,12 +93,12 @@ function NewsModal({ news, isOpen, onClose }: ModalProps) {
                         <span className="bg-gray-100 px-3 py-1 rounded">
                             📅 {formatDate(news.date)}
                         </span>
-                        <span className="bg-gray-100 px-3 py-1 rounded">
+                        <span className="bg-gray-100 px-3 py-1 rounded capitalizar">
                             📍 {news.location}
                         </span>
                     </div>
 
-                    <h1 className="text-2xl font-bold text-gray-800 mb-4">
+                    <h1 className="text-2xl font-bold text-gray-800 mb-4 capitalizar">
                         {news.title}
                     </h1>
                     <div className="prose max-w-none text-gray-700 leading-relaxed">

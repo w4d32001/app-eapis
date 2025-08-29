@@ -213,3 +213,7 @@ curved-container {
         transparent
     );
 }
+
+.capitalizar::first-letter {
+  text-transform: uppercase;
+}
