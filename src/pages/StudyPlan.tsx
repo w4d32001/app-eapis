@@ -6,6 +6,7 @@ import { academicAreasData } from "@/lib/academic";
 import { useEffect, useState } from "react";
 import type { Portada } from "./Teachers";
 import { settingsService } from "@/services/settingsService";
+import { Download } from "lucide-react";
 
 function StudyPlan() {
     const [activeTabId, setActiveTabId] = useState<string>("areas");
@@ -50,8 +51,11 @@ function StudyPlan() {
 
             case "resolucion":
                 return (
-                    <div className="tab-content text-[#0A2342] text-center">
-                        <p>Contenido de Resolución</p>
+                    <div className="tab-content text-[#0A2342] text-center flex flex-col items-center gap-4 py-6">
+                        <p className="text-white text-lg">Descargar resolución</p>
+                        <a className="bg-tertiary py-2 px-6 rounded flex gap-x-2 items-center" href={resolucion?.pdf} download>
+                           <Download /> Descargar pdf 
+                        </a>
                     </div>
                 );
 
@@ -60,8 +64,10 @@ function StudyPlan() {
         }
     };
     const [portadas, setPortadas] = useState<Portada[]>([]);
+    console.log(portadas);
     const portadaAbout = portadas.find((p) => p.name === "plan");
     const portadaMalla = portadas.find((p) => p.name === "malla");
+    const resolucion = portadas.find((p) => p.name === "resolucion");
 
     useEffect(() => {
         settingsService().then((data) => setPortadas(data));

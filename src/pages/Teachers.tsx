@@ -33,6 +33,7 @@ export type Portada = {
   id: number;
   name: string;
   image: string;
+  pdf: string;
 };
 
 function Teachers() {
